@@ -14,7 +14,7 @@ y_val = y_train[-2000:]
 x_train = x_train[:-2000,:,:,:]
 y_train = y_train[:-2000]
 
-
+#Loading Model
 base_model = tf.keras.applications.ResNet152(weights = 'imagenet', include_top = False, input_shape = (32,32,3))
 for layer in base_model.layers:
   layer.trainable = False
@@ -26,5 +26,5 @@ predictions = layers.Dense(10, activation = 'softmax')(x)
 head_model = Model(inputs = base_model.input, outputs = predictions)
 head_model.compile(optimizer='adam', loss=losses.sparse_categorical_crossentropy, metrics=['accuracy'])
 
-
+#History
 history = head_model.fit(x_train, y_train, batch_size=64, epochs=40, validation_data=(x_val, y_val))
